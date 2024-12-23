@@ -27,9 +27,11 @@ If you don't have an Octopus Home mini you may have another way to get live or n
 
 Do be aware that as you are not directly capturing the smart meter readings in Home Assistant the consumption does not include the standing charge and there will always be a small measurement difference from what Octopus energy say you have used, but in practice the difference is likely to be quite small.
 
-1. Create a utility meter that resets daily to store the consumption sensor information in, e.g. called `Grid Import Today`
-2. The utility meter should point to the sensor that is measuring your grid import. e.g. for a Hildebrand Glow it could be `sensor.smart_meter_electricity_energy_import`; a Shelly EM will be `sensor.<EM channel name>_energy_total`; for a GivEnergy inverter using the GivTCP integration it will be `sensor.givtcp_XXyywwXnnn_import_energy_today_kwh`
-3. Then add the consumption information to the Energy dashboard as per the steps for Octopus Home Mini above.  For step 3, `consumed energy`, you want the utility meter you have just created above, e.g. `sensor.grid_import_today` and for step 4, choose `Use an entity with current price` and the entity is `sensor.octopus_energy_electricity_{{METER_SERIAL_NUMBER}}_{{MPAN_NUMBER}}_current_rate`
+
+The energy dashboard can accept sensors that either track today's usage or total for all time usage. Its recommended that 'total' sensors are used as this gets around problems with 'today' sensors not precisely resetting at midnight and causing big spikes in the dashboard data.
+
+1. Identify a sensor that is measuring your grid import. e.g. for a Hildebrand Glow it could be `sensor.smart_meter_electricity_energy_import`; a Shelly EM will be `sensor.<EM channel name>_energy_total`; for a GivEnergy inverter using the GivTCP integration it will be `sensor.givtcp_XXyywwXnnn_import_energy_total_kwh`
+2. Then add the consumption information to the Energy dashboard in a similar way to the steps for Octopus Home Mini above, but for step 3, `consumed energy`, you want the existing import sensor you have identified, and for step 4, choose `Use an entity with current price` and the entity is `sensor.octopus_energy_electricity_{{METER_SERIAL_NUMBER}}_{{MPAN_NUMBER}}_current_rate`
 
 ### For Gas
 
